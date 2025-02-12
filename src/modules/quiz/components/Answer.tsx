@@ -1,11 +1,14 @@
+import clsx from 'clsx';
+
 interface Props {
   option: string;
   answer: string;
   selected: boolean;
+  isQuestionCountOdd: boolean;
   onChange: (answer: string) => void;
 }
 
-const Answer = ({ option, answer, selected, onChange }: Props) => {
+const Answer = ({ option, answer, selected, onChange, isQuestionCountOdd: isCountOdd }: Props) => {
   return (
     <span className="group">
       <input
@@ -20,12 +23,31 @@ const Answer = ({ option, answer, selected, onChange }: Props) => {
       />
       <label
         htmlFor={option}
-        className="px-3 lg:px-6 py-2 lg:py-4 flex items-center gap-6 border-2 border-primary cursor-pointer group-has-[:checked]:bg-primary transition-colors"
+        className={clsx(
+          'px-3 lg:px-6 py-2 lg:py-4 flex items-center gap-6 border-2 cursor-pointer transition-colors',
+          {
+            'border-primary group-has-[:checked]:bg-primary': isCountOdd,
+            'border-base-100 group-has-[:checked]:bg-base-100': !isCountOdd,
+          },
+        )}
       >
-        <span className="size-9 lg:size-12 flex items-center justify-center flex-shrink-0 font-bebas text-xl lg:text-3xl bg-primary text-base-100 border border-transparent group-has-[:checked]:border-base-100 rounded-full select-none uppercase transition-colors">
+        <span
+          className={clsx(
+            'size-9 lg:size-12 flex items-center justify-center flex-shrink-0 font-bebas text-xl lg:text-3xl border border-transparent rounded-full select-none uppercase transition-colors',
+            {
+              'bg-primary text-base-100 group-has-[:checked]:border-base-100': isCountOdd,
+              'bg-base-100 text-accent group-has-[:checked]:border-accent': !isCountOdd,
+            },
+          )}
+        >
           {option}
         </span>
-        <p className="font-sora text-lg lg:text-2xl text-primary group-has-[:checked]:text-base-100 select-none transition-colors">
+        <p
+          className={clsx('font-sora text-lg lg:text-2xl select-none transition-colors', {
+            'text-primary group-has-[:checked]:text-base-100': isCountOdd,
+            'text-base-100 group-has-[:checked]:text-accent': !isCountOdd,
+          })}
+        >
           {answer}
         </p>
       </label>
